@@ -1,7 +1,11 @@
 \documentclass[a4paper]{article}
 \usepackage{minimal}
 
-\usepackage[dvipsnames]{xcolor}
+%\VignetteIndexEntry{Let's use the terminal (bash)!}
+%\VignetteDepends{foo}
+%\VignettePackage{useBash}
+
+\usepackage[svgnames]{xcolor}
 \usepackage[nochapters,eulermath=true]{classicthesis}
 \usepackage{natbib}
 
@@ -9,57 +13,141 @@
 \usepackage{orcidlink,thumbpdf}
 \usepackage{framed}
 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pmboxdraw}
+\usepackage{float}
+
 \bibliographystyle{minimal}
 
 \setlength{\marginparwidth}{4cm}
+\setlength{\marginparsep}{0.4cm}
+\setlength{\marginparpush}{0.75cm}
 \hypersetup{citecolor=teal}
+
+\usepackage{minted}
+\newminted{bash}{bgcolor=Beige, bgcolorpadding=0.5em}
+\newcommand{\bash}[1]{\mintinline{bash}|#1|}
+
+\newcommand{\use}[1]{\code{#1}}
 
 \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 <<preliminaries, echo=FALSE, results=hide>>=
-options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
-library("MASS")
+options(prompt = " ",  continue = "   ", width = 70, useFancyQuotes = FALSE)
+library("useBash")
 @
 
 \author{Daniel Heimgartner}
 
-\title{A Short Demo Article}
+\title{Let's use the terminal (bash)!}
 
 \begin{document}
 \maketitle
 
-\section{To cite or not to cite} \label{sec:cite}
+\begin{bashcode}
+echo 'echo "Hello bash"!' > foo.sh  # write to a file
+cat foo.sh                          # inspect the file content
+sh foo.sh                           # execute the file
+rm foo.sh                           # remove the file
+\end{bashcode}
 
-A nice book: \citet{Cameron+Trivedi:2013}
+\section{Why?}
 
-\section{\R~code} \label{sec:code}
-\leftmarginpar{Wow this is some real code!}
-<<>>=
-f <- function() {
-  cat("Hello, world!\n")
-}
-f()
-@
+\url{https://linuxcommand.org/lc3_learning_the_shell.php}
 
-\section{Talking \code{code}}
-\leftmarginpar{\code{usethis::create\_package()}}
-\code{x <- 1}
+\leftmarginpar{What is a terminal?}
+\begin{itemize}
+\item foo
+\end{itemize}
 
-\section{Mathematik, Mathematik --- immer diese Mathematik} \label{sec:maths}
 
-\begin{equation}
-a^2 + b^2 = c^2
-\end{equation}
+\leftmarginpar{What is \proglang{bash}}
+\begin{itemize}
+\item foo
+\item However, most of the stuff you actually run in the terminal is not directly \proglang{bash} but an executable program (e.g., \bash{ls}, \bash{cat README.md}, \bash{man man}, \bash{man which}, \bash{which man}, etc.).
+\end{itemize}
+
+\leftmarginpar{What are the benefits?}
+\begin{itemize}
+\item foo
+\item Ever used the Euler cluster? Most servers don't have a Graphical User Interface (GUI)-based operating system (you have to interact with it via the terminal!)
+\item Much clearer recipes/instructions how to accomplish stuff (e.g., ``Right click > then navigate to "create new folder" > Enter the name of the folder'' vs. \bash{mkdir foo})
+\item Kind of a pre-requisite to use \proglang{git}!
+\item Scaffold the project structure and add new files, quickly change files (e.g., using \proglang{vim}), get an overview over the project structure (e.g., \bash{tree .}), etc.
+\item Most importantly: Quickly use \R! Remember from last time? \fct{usethis::create\_package} scaffolds the package (just type \use{R} to start the \R-interpreter and run the function!).
+\item Understand how the ``computer'' works (e.g., find the source code of an executable you like and inspect it)...
+\end{itemize}
+
+\leftmarginpar{What will I learn?}
+\begin{itemize}
+\item foo
+\end{itemize}
+
+\section{A quick demo}
+
+% Write an R script that takes a command line option
+% Write a bash wrapper (with shebang and some actual bash syntax)
+% Make it executable
+% Add location to PATH
+% Execute
+% => With bash you can glue stuff (different technologies) together!
+\url{https://linuxcommand.org/lc3_writing_shell_scripts.php}
+
+\section{Let's get started}
+
+\leftmarginpar{\bash{man}}
+The most important part (about programming) is where to get help. Man page is shorthand for manual page which explains the existence of the \bash{man} command. Let's try it out and invoke the command on itself
+
+\begin{bashcode}
+man man   # learn about man
+man bash  # learn about bash
+\end{bashcode}
+
+\marginpar{The jargon of man pages might be a little difficult to understand and most programs feature many, many options. You might find \bash{tldr} handy (needs to be installed first)... It's fine to just google for help too! ;)}
+
+\leftmarginpar{How to navigate man pages?}
+``press h for help or q for quit'' -- It's always a good idea to read first! ;)
+\begin{itemize}
+\item Use \proglang{vim} keybindings (\use{j} for down and \use{k} for up, or use arrows).
+\item Use \use{/pattern} to search.
+\begin{itemize}
+\item \use{n} for the next appearance and \use{N} to cycle back.
+\end{itemize}
+\end{itemize}
+
+% demonstrate this with one example: where am I? Change directory, create dir and files, etc.
+
+\leftmarginpar{pwd}
+
+\leftmarginpar{cd}
+% explain /, . and ..
+
+\leftmarginpar{mkdir}
+
+\leftmarginpar{touch}
+
+\leftmarginpar{ls}
+
+\leftmarginpar{tree}
+
+\leftmarginpar{cat}
+
+\leftmarginpar{cp}
+
+\leftmarginpar{mv}
+
+\leftmarginpar{rm}
+
+\leftmarginpar{Resources}
+\begin{itemize}
+\item \proglang{bash}: \url{https://linuxcommand.org/lc3_learning_the_shell.php} \citep{Bash:2019}
+\item Use a package manager to install command line tools or any (GUI) application (e.g., RStudio)!
+\begin{itemize}
+\item For Mac: \proglang{brew} \url{https://brew.sh/}
+\item For Windows: \proglang{chocolatey}  \url{https://chocolatey.org/}
+\end{itemize}
+\end{itemize}
 
 \bibliography{refs}
-
-\newpage
-
-\begin{appendix}
-
-\section{More technical details} \label{app:technical}
-
-The appendix...
-
-\end{appendix}
 
 \end{document}

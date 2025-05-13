@@ -44,6 +44,8 @@ library("useBash")
 \begin{document}
 \maketitle
 
+\url{https://linuxcommand.org/lc3_learning_the_shell.php}
+
 \begin{bashcode}
 echo 'echo "Hello bash"!' > foo.sh  # write to a file
 cat foo.sh                          # inspect the file content
@@ -53,57 +55,84 @@ rm foo.sh                           # remove the file
 
 \section{Why?}
 
-\url{https://linuxcommand.org/lc3_learning_the_shell.php}
+\leftmarginpar{What is \proglang{bash}}
+\begin{itemize}
+\item \proglang{bash} stands for \emph{Bourne Again SHell}, i.e., it is a shell. All clear?
+\item Simply put, a shell is a program that takes commands/user input from the keyboard and gives them to the operating system (OS) to perform.
+\item In the old days, this was the only available user interface on a Unix-like system (your parents probably know how to use a terminal).
+\item Nowadays, we have \emph{graphical user interfaces} (GUIs).
+\item So: There are two ways to interact with a computer: Via the shell and via a GUI.
+\item \proglang{bash} is actually a scripting language. I.e., you can declare variables, write functions, use control flow, etc. (e.g., \url{https://github.com/dheimgartner/MOBISarchive/blob/main/main.sh})
+\item However, most of the stuff you actually run in the terminal is not directly \proglang{bash} but an executable program (e.g., \bash{ls}, \bash{cat README.md}, \bash{man man}, \bash{man which}, \bash{which man}, etc.).
+\end{itemize}
+
+\marginpar{Most OS usually come with a desktop environment which is pretty much a GUI for interacting with the OS itself. However, in principle, you don't need one -- everything can be achieved via the shell!}
 
 \leftmarginpar{What is a terminal?}
 \begin{itemize}
-\item foo
-\end{itemize}
-
-
-\leftmarginpar{What is \proglang{bash}}
-\begin{itemize}
-\item foo
-\item However, most of the stuff you actually run in the terminal is not directly \proglang{bash} but an executable program (e.g., \bash{ls}, \bash{cat README.md}, \bash{man man}, \bash{man which}, \bash{which man}, etc.).
+\item A terminal is usually a point of access (e.g., flight terminal).
+\item The terminal used to be a physical device allowing you to ``access'' (interact with) the computer.
+\item Nowadays, it's simply a digital program (\emph{terminal emulator}) -- a program that opens a window and lets you interact with the shell.
+\item The thing that runs in the terminal is a shell (and in most cases \proglang{bash} or some variant of it).
 \end{itemize}
 
 \leftmarginpar{What are the benefits?}
 \begin{itemize}
-\item foo
-\item Ever used the Euler cluster? Most servers don't have a Graphical User Interface (GUI)-based operating system (you have to interact with it via the terminal!)
+\item Ever used the Euler cluster? Most servers don't have a desktop environment/(GUI)-based operating system (you have to interact with it via the terminal!)
 \item Much clearer recipes/instructions how to accomplish stuff (e.g., ``Right click > then navigate to "create new folder" > Enter the name of the folder'' vs. \bash{mkdir foo})
 \item Kind of a pre-requisite to use \proglang{git}!
 \item Scaffold the project structure and add new files, quickly change files (e.g., using \proglang{vim}), get an overview over the project structure (e.g., \bash{tree .}), etc.
 \item Most importantly: Quickly use \R! Remember from last time? \fct{usethis::create\_package} scaffolds the package (just type \use{R} to start the \R-interpreter and run the function!).
 \item Understand how the ``computer'' works (e.g., find the source code of an executable you like and inspect it)...
+\item Automate stuff (you can think of \proglang{bash} as a way to glue stuff together)
 \end{itemize}
 
 \leftmarginpar{What will I learn?}
 \begin{itemize}
-\item foo
+\item Get a mental picture of what the terminal is and what it does when interacting with it
+\item Learn the most basic (built-in) \proglang{bash} commands (mostly, navigating the file system)
+\item How to get help; access manual pages
+\item Goal: 1. Navigate to a place in the file system, 2. Create a new repository, 3. Start the \R~interpreter (and understand that this simply executes the \R~executable), 4. Scaffold an \R-package (\fct{usethis::create\_package}), 5. Stop the \R~interpreter, 6. Inspect the newly created directory structure, 7. Navigate out of the project directory and 8. Delete it again.
+\item Learn where to learn more!
 \end{itemize}
-
-\section{A quick demo}
-
-% Write an R script that takes a command line option
-% Write a bash wrapper (with shebang and some actual bash syntax)
-% Make it executable
-% Add location to PATH
-% Execute
-% => With bash you can glue stuff (different technologies) together!
-\url{https://linuxcommand.org/lc3_writing_shell_scripts.php}
 
 \section{Let's get started}
 
+% Briefly mention command -options arguments
+% Write about built-in command vs. program executable vs. ... (https://linuxcommand.org/lc3_lts0060.php)
+
+\begin{bashcode}
+command -options arguments
+
+# e.g.,
+ls -a foo
+# list (ls) all files (-a) in the directory called foo
+\end{bashcode}
+%
+where \code{command} is the name of the command, \code{-options} is one or more adjustments to the command's behavior, and \code{arguments} is one or more ``things'' upon which the command operates.
+
+
+\leftmarginpar{What are commands?}
+Commands can be one of 4 different kinds:
+\begin{enumerate}
+\item An executable program (e.g., a compiled binary but also a program written in a scripting language such as \R, \proglang{Python}, etc.)
+\item A command built into the shell itself (e.g., \bash{cd})
+\item A shell function (miniature shell script incorporated into the environment)
+\item An alias (command built from other commands)
+\end{enumerate}
+
+
 \leftmarginpar{\bash{man}}
-The most important part (about programming) is where to get help. Man page is shorthand for manual page which explains the existence of the \bash{man} command. Let's try it out and invoke the command on itself
+The most important part (about programming) is where to get help. Man page is shorthand for manual page which explains the existence of the \bash{man} command. Man pages vary somewhat in format but generally contain a title, a synopsis of the command's syntax, a description of the command's purpose, and a listing and description of each of the command's options. Man pages, however, do not usually include examples, and are intended as a reference, not a tutorial. Let's try it out and invoke the command on itself
+
+\marginpar{For shell built-ins like \bash{cd} we actually have to use \bash{help}. Many executable programs support a ``--help'' option, e.g., \bash{R --help}}
 
 \begin{bashcode}
 man man   # learn about man
 man bash  # learn about bash
 \end{bashcode}
 
-\marginpar{The jargon of man pages might be a little difficult to understand and most programs feature many, many options. You might find \bash{tldr} handy (needs to be installed first)... It's fine to just google for help too! ;)}
+\marginpar{The jargon of man pages might be a little difficult to understand and most programs feature many, many options. You might find \bash{tldr} handy (needs to be installed first)... It's fine to just google for help too! Or ask some AI -- but then it might be a good idea to consult \bash{man} and check the suggested options and arguments...}
 
 \leftmarginpar{How to navigate man pages?}
 ``press h for help or q for quit'' -- It's always a good idea to read first! ;)
@@ -118,29 +147,138 @@ man bash  # learn about bash
 % demonstrate this with one example: where am I? Change directory, create dir and files, etc.
 
 \leftmarginpar{pwd}
-
-\leftmarginpar{cd}
-% explain /, . and ..
-
-\leftmarginpar{mkdir}
-
-\leftmarginpar{touch}
+\bash{pwd} stands for (at least in my head) present working directory.
+\begin{bashcode}
+pwd
+/home/daniehei
+\end{bashcode}
 
 \leftmarginpar{ls}
+Let's list all the files in the current working directory
+\begin{bashcode}
+ls -a .
+# output omitted
+\end{bashcode}
+
+\leftmarginpar{mkdir}
+Let's create/make a new directory
+\begin{bashcode}
+mkdir foo
+\end{bashcode}
+
+\leftmarginpar{cd}
+And change the directory (i.e., set the working directory to \code{foo})
+\begin{bashcode}
+cd foo
+ls -a .
+.  ..
+\end{bashcode}
+To understand the file system (as well as absolute and relative paths) you need to understand the following symbols
+\begin{itemize}
+\item \code{/} The root directory (at least on Linux). Everything is a subdirectory of the root directory (on Windows you have different drive letters that split the file system into different trees, e.g., \code{C:}).
+\item \code{~} The home directory
+\item \code{.} The current directory
+\item \code{..} The parent directory
+\end{itemize}
+
+\leftmarginpar{touch}
+Let's create a new file
+\begin{bashcode}
+touch bar.txt
+\end{bashcode}
 
 \leftmarginpar{tree}
+Let's inspect the hierarchical structure of the \code{foo} directory (not that interesting at the moment...)
+
+\begin{bashcode}
+tree .
+.
+└── bar.txt
+\end{bashcode}
+
+Let's start the \R~interpreter and scaffold a new project/package and then inspect again
+\begin{bashcode}
+R
+usethis::create_package("tuesdays", rstudio = TRUE)
+quit()  # quit the R interpreter (alternatively, use Ctrl-D)
+tree .
+.
+├── bar.txt
+└── tuesdays
+    ├── DESCRIPTION
+    ├── NAMESPACE
+    ├── R
+    └── tuesdays.Rproj
+
+2 directories, 4 files
+\end{bashcode}
 
 \leftmarginpar{cat}
+Inspect the content of a file
+\begin{bashcode}
+cat(tuesdays/DESCRIPTION)
+Package: tuesdays
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R:
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+\end{bashcode}
+
+\marginpar{Use \use{tab} for autocompletion. E.g., type \bash{cat tuesdays/DES} and hit \use{tab}.}
+
+% Maybe shortly explain why not using space in file names (e.g., cat foo bar.txt vs. cat foo_bar.txt)
 
 \leftmarginpar{cp}
+For some reason, we want to copy the \code{DESCRIPTION} file to the current directory
+\begin{bashcode}
+cp ./tuesdays/DESCRIPTION .
+\end{bashcode}
 
 \leftmarginpar{mv}
+Let's move the \code{bar.txt} file into the \code{tuesdays} directory
+\begin{bashcode}
+mv bar.txt tuesdays  # same as ./tuesdays (./ is implicit)
+\end{bashcode}
 
 \leftmarginpar{rm}
+Let's remove/delete all of this stuff
+\begin{bashcode}
+cd ..
+rm -rf foo
+\end{bashcode}
+
+\section{A quick demo: Writing shell scripts}
+
+% Write an R script that takes a command line option
+% Write a bash wrapper (with shebang and some actual bash syntax)
+% Make it executable
+% Add location to PATH
+% Execute
+% => With bash you can glue stuff (different technologies) together!
+\begin{itemize}
+\item \url{https://linuxcommand.org/lc3_writing_shell_scripts.php}
+\item To successfully write a shell script, we have to do three things:
+\begin{enumerate}
+\item Write a script
+\item Give the shell permission to execute it
+\item Put it somewhere the shell can find
+\end{enumerate}
+\end{itemize}
+%
+
+TODO
 
 \leftmarginpar{Resources}
 \begin{itemize}
-\item \proglang{bash}: \url{https://linuxcommand.org/lc3_learning_the_shell.php} \citep{Bash:2019}
+\item \proglang{bash}: Highly recommended to work through \url{https://linuxcommand.org/lc3_learning_the_shell.php} \citep{Bash:2019}
+\item While you are at it: Learn how to write shell scripts \url{https://linuxcommand.org/lc3_writing_shell_scripts.php} \citep{Bash:2019}
 \item Use a package manager to install command line tools or any (GUI) application (e.g., RStudio)!
 \begin{itemize}
 \item For Mac: \proglang{brew} \url{https://brew.sh/}

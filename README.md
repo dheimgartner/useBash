@@ -5,7 +5,7 @@ Let's use the terminal (bash)!
 ## Installation
 
 ```R
-devtools::install_github("dheimgartner/useBash")
+devtools::install_github("dheimgartner/useBash", build_vignettes = TRUE)
 ```
 
 ## Usage
